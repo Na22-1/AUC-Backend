@@ -1,0 +1,11 @@
+com\javawhizz\App\AucController\AucController.class
+com\javawhizz\App\config\CorsConfig.class
+com\javawhizz\App\service\AucService.class
+com\javawhizz\App\config\WebSocketConfig.class
+com\javawhizz\App\entity\AucItem.class
+com\javawhizz\App\config\WebSocketSessionManager.class
+com\javawhizz\App\AucApiApplication.class
+com\javawhizz\App\repository\AucRepository.class
+com\javawhizz\App\repository\BoardKeyRepository.class
+com\javawhizz\App\entity\Key.class
+com\javawhizz\App\config\SocketTextHandler.class
