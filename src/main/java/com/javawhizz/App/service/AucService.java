@@ -40,6 +40,8 @@ public class AucService {
         }
         existingAucItem.setCanvasBox(updatedAucItem.getCanvasBox());
         existingAucItem.setDescription(updatedAucItem.getDescription());
+        existingAucItem.setBoardName(updatedAucItem.getBoardName());
+        existingAucItem.setCreateDate(updatedAucItem.getCreateDate());
         var save = aucRepository.save(existingAucItem);
 
         return save;
