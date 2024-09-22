@@ -5,7 +5,6 @@ import com.javawhizz.App.entity.Key;
 import com.javawhizz.App.repository.AucRepository;
 import com.javawhizz.App.repository.BoardKeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,9 +39,10 @@ public class AucService {
         }
         existingAucItem.setCanvasBox(updatedAucItem.getCanvasBox());
         existingAucItem.setDescription(updatedAucItem.getDescription());
-        var save = aucRepository.save(existingAucItem);
+        existingAucItem.setBoardName(updatedAucItem.getBoardName());
+        existingAucItem.setCreateDate(updatedAucItem.getCreateDate());
 
-        return save;
+        return aucRepository.save(existingAucItem);
     }
 
     public void deleteAucItem(Long id) {

@@ -40,7 +40,6 @@ public class AucController {
         if (aucItems == null) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(aucItems);
     }
 
