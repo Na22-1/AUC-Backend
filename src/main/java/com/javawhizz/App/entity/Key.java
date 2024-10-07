@@ -15,10 +15,11 @@ public class Key {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name ="boardKey")
+    @Column(name = "boardKey")
     private String boardKey;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bordEntity", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardEntity", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<AucItem> aucItemList;
+    private List<BoardDate> boardDateList;
+
 }

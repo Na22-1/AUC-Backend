@@ -20,13 +20,10 @@ public class AucItem {
     @Column(name = "description", length = 500)
     private String description;
 
-    @Column(name ="boardName", length = 500)
+    @Column(name = "boardName", length = 500)
     private String boardName;
 
-    @Column(name ="createDate", length = 500)
-    private String createDate;
-
-    @ManyToOne
-    @JoinColumn(name = "boardkey_id")
-    private Key bordEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "boardDate_id")
+    private BoardDate boardDate;
 }
