@@ -21,6 +21,6 @@ public class AucItem {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "boardkey_id")
-    private Key bordEntity;
+    @JoinColumn(name = "boardDate_id")
+    private BoardDate boardDate;
 }
