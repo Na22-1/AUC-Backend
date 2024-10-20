@@ -32,11 +32,11 @@ public class BoardLoginService {
         return true;
     }
 
-    public List<AucItem> loginBoard(BoardKey boardKey, String boardDate) {
-        var key = boardKeyRepository.findByBoardKey(boardKey.getBoardKey());
+    public List<AucItem> loginBoard(String boardKey, String boardDate) {
+        var key = boardKeyRepository.getKeyByBoardKey(boardKey);
 
         if (key == null) {
-            throw new IllegalArgumentException("BoardKey not found: " + boardKey.getBoardKey());
+            throw new IllegalArgumentException("BoardKey not found: " + boardKey);
         }
 
         BoardDate dateAndKey = findBoardDate(boardDate, key);
@@ -54,8 +54,8 @@ public class BoardLoginService {
     }
 
 
-    private BoardDate findBoardDate(String boardDateValue, BoardKey boardKeyValue) {
-        return boardDateRepository.getBoardDateByBoardDateAndBoardKeyEntity(boardDateValue, boardKeyValue); // Return null if no date found
+    public BoardDate findBoardDate(String boardDateValue, BoardKey boardKeyValue) {
+        return boardDateRepository.getBoardDateByBoardDateAndBoardKeyEntity(boardDateValue, boardKeyValue);
     }
 
 }
