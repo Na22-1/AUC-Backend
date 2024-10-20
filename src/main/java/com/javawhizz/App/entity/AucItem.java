@@ -21,4 +21,8 @@ public class AucItem {
     @ManyToOne
     @JoinColumn(name = "board_date_id")
     private BoardDate boardDate;
+
+    @ManyToOne
+    @JoinColumn(name = "board_key_id")
+    private BoardKey boardKeyEntity;
 }

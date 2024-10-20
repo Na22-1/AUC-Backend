@@ -14,4 +14,7 @@ public interface BoardDateRepository extends JpaRepository<BoardDate, Long> {
 
     BoardDate findByBoardKeyEntity_IdAndBoardDate(Long boardKeyId, String boardDate);
 
+    BoardDate findByBoardDateAndBoardKeyEntity(String boardDate, BoardKey boardKeyEntity);
+    BoardDate findBoardDateByBoardKeyEntity(BoardKey boardKeyEntity);
+
 }

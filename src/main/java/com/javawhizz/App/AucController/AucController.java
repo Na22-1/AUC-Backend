@@ -1,7 +1,6 @@
 package com.javawhizz.App.AucController;
 
 import com.javawhizz.App.entity.AucItem;
-import com.javawhizz.App.entity.BoardDate;
 import com.javawhizz.App.entity.BoardKey;
 import com.javawhizz.App.service.AucService;
 import com.javawhizz.App.service.BoardLoginService;
@@ -45,22 +44,12 @@ public class AucController {
         return ResponseEntity.ok(aucItems);
     }
     @PostMapping("/{boardKey}/{boardDate}")
-    public ResponseEntity<AucItem> addAucItem(@PathVariable String boardKey,
-                                              @PathVariable String boardDate,
-                                              @RequestBody AucItem aucItem) {
-        try {
-            AucItem createdItem = aucService.createAucItem(boardKey, boardDate, aucItem);
-            return new ResponseEntity<>(createdItem, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+    public AucItem addAucItem(@PathVariable String boardKey,
+                              @PathVariable String boardDate,
+                              @RequestBody AucItem aucItem) {
+        return aucService.createAucItem(boardKey, boardDate, aucItem);
     }
 
-    /*
-    @PostMapping("/{boardKey}")
-    public AucItem createAucItem(@PathVariable String boardKey, @RequestBody AucItem aucItem) {
-        return aucService.createAucItem(aucItem, boardKey);
-    }*/
     @PutMapping("/{id}")
     public AucItem updateAucItem(@PathVariable Long id, @RequestBody AucItem aucItem) {
         return aucService.updateAucItem(id, aucItem);

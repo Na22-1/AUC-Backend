@@ -18,12 +18,5 @@ public class BoardKey {
     @Column(name = "board_key", unique = true)
     private String boardKey;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "boardKeyEntity", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<BoardDate> boardDateList;
 
-    @Override
-    public String toString() {
-        return boardKey;
-    }
 }

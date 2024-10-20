@@ -19,7 +19,6 @@ public class BoardDate {
 
     @ManyToOne
     @JoinColumn(name = "board_key_id", nullable = false)
-    @JsonIgnore
     private BoardKey boardKeyEntity;
 
     @OneToMany(mappedBy = "boardDate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
