@@ -64,9 +64,8 @@ public class AucService {
         }
         existingAucItem.setCanvasBox(updatedAucItem.getCanvasBox());
         existingAucItem.setDescription(updatedAucItem.getDescription());
-        var save = aucItemRepository.save(existingAucItem);
 
-        return save;
+        return aucItemRepository.save(existingAucItem);
     }
 
     public void deleteAucItem(Long id) {

@@ -61,12 +61,12 @@ public class AucController {
     }
 
     @PostMapping("/create/{boardKey}")
-    public ResponseEntity createBoardKey(@PathVariable String boardKey) {
+    public ResponseEntity<String> createBoardKey(@PathVariable String boardKey) {
         var result = boardLoginService.createBoardKey(boardKey);
         if (!result) {
-            return new ResponseEntity("Key already Exists!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Key already Exists!", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity("Created", HttpStatus.OK);
+        return new ResponseEntity<>("Created", HttpStatus.OK);
     }
 
     @GetMapping("/login/{boardKey}/{boardDate}")
