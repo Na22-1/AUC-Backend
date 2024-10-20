@@ -3,22 +3,25 @@ package com.javawhizz.App.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "boardKeys")
-public class Key {
+@Table(name = "board_dates")
+public class BoardDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name ="boardKey")
-    private String boardKey;
+    @Column(name = "board_date")
+    private String boardDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bordEntity", cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "board_key_id", nullable = false)
+    private BoardKey boardKeyEntity;
+
+    @OneToMany(mappedBy = "boardDate", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<AucItem> aucItemList;
 }

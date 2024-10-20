@@ -1,34 +1,59 @@
 package com.javawhizz.App.service;
 
 import com.javawhizz.App.entity.AucItem;
-import com.javawhizz.App.entity.Key;
-import com.javawhizz.App.repository.AucRepository;
+import com.javawhizz.App.entity.BoardDate;
+import com.javawhizz.App.entity.BoardKey;
+import com.javawhizz.App.repository.AucItemRepository;
+import com.javawhizz.App.repository.BoardDateRepository;
 import com.javawhizz.App.repository.BoardKeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class AucService {
     @Autowired
-    private AucRepository aucRepository;
+    private AucItemRepository aucItemRepository;
 
     @Autowired
     private BoardKeyRepository boardKeyRepository;
 
-    public List<AucItem> getAucItems(String boardKey) {
-        Long key = boardKeyRepository.getKeyByBoardKey(boardKey).getId();
-        return aucRepository.findAucItemsByBordEntityId(key);
+    @Autowired
+    private BoardDateRepository boardDateRepository;
+
+    public List<AucItem> getAucItems(String boardKeyValue, String boardDateValue) {
+        var boardKeyEntity = boardKeyRepository.findByBoardKey(boardKeyValue).getId();
+
+        if (boardKeyEntity == null) {
+            return Collections.emptyList();
+        }
+
+        BoardDate boardDateEntity = boardDateRepository.findByBoardKeyEntity_IdAndBoardDate(boardKeyEntity, boardDateValue);
+
+        if (boardDateEntity != null) {
+            return aucItemRepository.findByBoardDate(boardDateEntity);
+        }
+
+        return Collections.emptyList();
     }
 
     public AucItem getAucItem(Long id) {
-        return aucRepository.findById(id).orElse(null);
+        return aucItemRepository.findById(id).orElse(null);
     }
 
-    public AucItem createAucItem(AucItem aucItem, String boardKey) {
-        aucItem.setBordEntity(boardKeyRepository.getKeyByBoardKey(boardKey));
-        return aucRepository.save(aucItem);
+    public AucItem createAucItem(String boardKey, String boardDate, AucItem aucItem) {
+        BoardKey keyEntity = boardKeyRepository.findByBoardKey(boardKey);
+        if (keyEntity == null) {
+            throw new IllegalArgumentException("Invalid board key: " + boardKey);
+        }
+
+        BoardDate date = boardDateRepository.findBoardDateByBoardKeyEntity(keyEntity);
+        aucItem.setBoardKeyEntity(keyEntity);
+        aucItem.setBoardDate(date);
+
+        return aucItemRepository.save(aucItem);
     }
 
     public AucItem updateAucItem(Long id, AucItem updatedAucItem) {
@@ -39,31 +64,12 @@ public class AucService {
         }
         existingAucItem.setCanvasBox(updatedAucItem.getCanvasBox());
         existingAucItem.setDescription(updatedAucItem.getDescription());
-        existingAucItem.setBoardName(updatedAucItem.getBoardName());
-        existingAucItem.setCreateDate(updatedAucItem.getCreateDate());
 
-        return aucRepository.save(existingAucItem);
+        return aucItemRepository.save(existingAucItem);
     }
 
     public void deleteAucItem(Long id) {
-        aucRepository.deleteById(id);
+        aucItemRepository.deleteById(id);
     }
 
-    public List<AucItem> loginBoard(String boardKey){
-        var key = boardKeyRepository.getKeyByBoardKey(boardKey);
-        if (key != null){
-            return key.getAucItemList();
-        }
-        return null;
-    }
-    public boolean createBoardKey(String boardKey){
-        if (boardKeyRepository.existsByBoardKey(boardKey)){
-            return false;
-        }
-        var entity = new Key();
-        entity.setBoardKey(boardKey);
-        boardKeyRepository.save(entity);
-
-        return true;
-    }
 }

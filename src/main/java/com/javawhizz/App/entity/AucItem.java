@@ -1,32 +1,28 @@
 package com.javawhizz.App.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
-
 @Data
 @Entity
-@Table(name = "aucItem")
+@Table(name = "auc_items")
 public class AucItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "canvasBox")
+    @Column(name = "canvas_box")
     private int canvasBox;
 
     @Column(name = "description", length = 500)
     private String description;
 
-    @Column(name ="boardName", length = 500)
-    private String boardName;
-
-    @Column(name ="createDate", length = 500)
-    private String createDate;
+    @ManyToOne
+    @JoinColumn(name = "board_date_id")
+    private BoardDate boardDate;
 
     @ManyToOne
-    @JoinColumn(name = "boardkey_id")
-    private Key bordEntity;
+    @JoinColumn(name = "board_key_id")
+    private BoardKey boardKeyEntity;
 }
