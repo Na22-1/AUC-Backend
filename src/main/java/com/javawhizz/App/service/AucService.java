@@ -22,14 +22,16 @@ public class AucService {
 
     @Autowired
     private BoardDateRepository boardDateRepository;
+    @Autowired
+    private BoardLoginService boardLoginService;
     public List<AucItem> getAucItems(String boardKeyValue, String boardDateValue) {
-        BoardKey boardKeyEntity = boardKeyRepository.findByBoardKey(boardKeyValue);
+        var boardKeyEntity = boardKeyRepository.findByBoardKey(boardKeyValue).getId();
 
         if (boardKeyEntity == null) {
             return Collections.emptyList();
         }
 
-        BoardDate boardDateEntity = boardDateRepository.findByBoardKeyEntityAndBoardDate(boardKeyEntity, boardDateValue);
+        BoardDate boardDateEntity = boardDateRepository.findByBoardKeyEntity_IdAndBoardDate(boardKeyEntity, boardDateValue);
 
         if (boardDateEntity != null) {
             return aucItemRepository.findByBoardDate(boardDateEntity);
@@ -57,11 +59,52 @@ public class AucService {
         return aucItemRepository.findById(id).orElse(null);
     }
 
-    public AucItem createAucItem(AucItem aucItem, String boardKey) {
-   //     aucItem.setBordEntity(boardKeyRepository.getKeyByBoardKey(boardKey));
-     //   return aucRepository.save(aucItem);
-        return null;
+    public AucItem createAucItem(String boardKeyString, String boardDateString, AucItem aucItem) {
+        // Fetch the BoardKey
+        var boardKey = boardKeyRepository.findByBoardKey(boardKeyString).getId();
+        var boardKey1 = boardKeyRepository.findByBoardKey(boardKeyString);
+        var a = boardDateRepository.getBoardDateByBoardDateAndBoardKeyEntity(boardDateString, boardKey1);
+        if (boardKey1 == null) {
+            throw new IllegalArgumentException("Invalid board key.");
+        }
+
+        // Fetch the BoardDate
+        BoardDate boardDate = boardDateRepository.findByBoardKeyEntity_IdAndBoardDate(boardKey, boardDateString);
+        if (boardDate == null || !boardDate.getBoardKeyEntity().getId().equals(boardKey) ) {
+            throw new IllegalArgumentException("Invalid board date for the given board key.");
+        }
+
+        // Associate AucItem with BoardDate
+        aucItem.setBoardDate(boardDate);
+        return aucItemRepository.save(aucItem);
     }
+
+/*
+    public AucItem createAucItem(AucItem aucItem, String boardKey, String boardDate) {
+        BoardKey boardKeyEntity = boardKeyRepository.findByBoardKey(boardKey);
+
+        aucItem.setBoardDate(boardDateRepository.getBoardDateByBoardDateAndBoardKeyEntity(boardDate, boardKeyEntity));
+        return aucItemRepository.save(aucItem);
+    }
+
+    /**  public List<AucItem> getAucItemsByBoardKeySorted(String boardKey) {
+     Key boardKeyEntity = keyRepository.findByBoardKey(boardKey);
+     if (boardKeyEntity == null) {
+     return new ArrayList<>(); // No such key
+     }
+
+     // Get board dates associated with this key and order them by date
+     List<BoardDate> boardDates = boardDateRepository.findByBoardEntityOrderByCreateDateAsc(boardKeyEntity);
+
+     // Collect and return all AucItems sorted by their board date
+     List<AucItem> aucItems = new ArrayList<>();
+     for (BoardDate boardDate : boardDates) {
+     List<AucItem> itemsForDate = aucItemRepository.findByBoardDate(boardDate);
+     aucItems.addAll(itemsForDate);
+     }
+     return aucItems;
+     }
+     */
 
     public AucItem updateAucItem(Long id, AucItem updatedAucItem) {
         AucItem existingAucItem = getAucItem(id);
@@ -80,22 +123,4 @@ public class AucService {
         aucItemRepository.deleteById(id);
     }
 
-  /**  public List<AucItem> getAucItemsByBoardKeySorted(String boardKey) {
-        Key boardKeyEntity = keyRepository.findByBoardKey(boardKey);
-        if (boardKeyEntity == null) {
-            return new ArrayList<>(); // No such key
-        }
-
-        // Get board dates associated with this key and order them by date
-        List<BoardDate> boardDates = boardDateRepository.findByBoardEntityOrderByCreateDateAsc(boardKeyEntity);
-
-        // Collect and return all AucItems sorted by their board date
-        List<AucItem> aucItems = new ArrayList<>();
-        for (BoardDate boardDate : boardDates) {
-            List<AucItem> itemsForDate = aucItemRepository.findByBoardDate(boardDate);
-            aucItems.addAll(itemsForDate);
-        }
-        return aucItems;
-    }
-*/
 }
