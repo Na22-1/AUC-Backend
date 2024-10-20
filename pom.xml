@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
+			<optional>true</optional> <!-- Optional for production exclusion -->
 		</dependency>
 
 	</dependencies>
