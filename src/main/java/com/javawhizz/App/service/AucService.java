@@ -49,12 +49,14 @@ public class AucService {
             throw new IllegalArgumentException("Invalid board key: " + boardKey);
         }
 
-        BoardDate date = boardDateRepository.findBoardDateByBoardKeyEntity(keyEntity);
+        BoardDate date = boardDateRepository.findByBoardKeyEntityAndBoardDate(keyEntity, boardDate);
         aucItem.setBoardKeyEntity(keyEntity);
         aucItem.setBoardDate(date);
 
         return aucItemRepository.save(aucItem);
     }
+
+
 
     public AucItem updateAucItem(Long id, AucItem updatedAucItem) {
         AucItem existingAucItem = getAucItem(id);
