@@ -56,8 +56,6 @@ public class AucService {
         return aucItemRepository.save(aucItem);
     }
 
-
-
     public AucItem updateAucItem(Long id, AucItem updatedAucItem) {
         AucItem existingAucItem = getAucItem(id);
 
