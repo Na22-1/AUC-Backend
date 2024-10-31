@@ -49,7 +49,8 @@ public class AucService {
             throw new IllegalArgumentException("Invalid board key: " + boardKey);
         }
 
-        BoardDate date = boardDateRepository.findByBoardKeyEntityAndBoardDate(keyEntity, boardDate);
+        BoardDate date = boardDateRepository.getBoardDateByBoardDateAndBoardKeyEntity(boardDate, keyEntity);
+
         aucItem.setBoardKeyEntity(keyEntity);
         aucItem.setBoardDate(date);
 

@@ -22,21 +22,25 @@ public class BoardDateService {
     @Autowired
     private AucService aucService;
 
-    public List<BoardDate> checkDateWithKey(String boardKey, String boardDate) {
+    public List<AucItem> checkDateWithKey(String boardKey, String boardDate) {
         var key = boardKeyRepository.getKeyByBoardKey(boardKey);
 
         if (key == null) {
             throw new IllegalArgumentException("BoardKey not found: " + boardKey);
         }
 
-        // Create and save a new BoardDate entry if it doesn't exist
-        BoardDate newBoardDate = new BoardDate();
-        newBoardDate.setBoardKeyEntity(key);
-        newBoardDate.setBoardDate(boardDate);
-        boardDateRepository.save(newBoardDate);
-        // Return an empty Optional to indicate a new date was created
-        return  Collections.emptyList();
+        BoardDate dateAndKey = findBoardDate(boardDate, key);
 
+        if (dateAndKey != null) {
+            return dateAndKey.getAucItemList();
+        } else {
+            BoardDate newBoardDate = new BoardDate();
+            newBoardDate.setBoardKeyEntity(key);
+            newBoardDate.setBoardDate(boardDate);
+            boardDateRepository.save(newBoardDate);
+
+            return Collections.emptyList();
+        }
     }
 
 
