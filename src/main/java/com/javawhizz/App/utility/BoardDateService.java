@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BoardDateService {
@@ -43,10 +42,6 @@ public class BoardDateService {
         }
     }
 
-
-    public List<AucItem> getDateWithKey(String boardKey, String boardDate) {
-        return aucService.getAucItems(boardKey, boardDate);
-    }
 
     private BoardDate findBoardDate(String boardDateValue, BoardKey boardKeyValue) {
         return boardDateRepository.getBoardDateByBoardDateAndBoardKeyEntity(boardDateValue, boardKeyValue);
