@@ -1,9 +1,11 @@
 package com.javawhizz.App.AucController;
 
 import com.javawhizz.App.entity.AucItem;
+import com.javawhizz.App.entity.BoardDate;
 import com.javawhizz.App.entity.BoardKey;
 import com.javawhizz.App.service.AucService;
 import com.javawhizz.App.service.BoardLoginService;
+import com.javawhizz.App.utility.BoardDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class AucController {
 
     @Autowired
     private BoardLoginService boardLoginService;
+
+    @Autowired
+    private BoardDateService boardDateService;
 /*
     @GetMapping("/{boardKey}/{boardDate}")
     public ResponseEntity<List<AucItem>> getAucItems(@PathVariable String boardKey, @PathVariable String boardDate) {
@@ -58,6 +63,28 @@ public class AucController {
     @DeleteMapping("/{id}")
     public void deleteAucItem(@PathVariable Long id) {
         aucService.deleteAucItem(id);
+    }
+
+    @PostMapping("/createNewBoard/{boardKey}/{boardDate}")
+    public ResponseEntity<List<AucItem>> createNewBoard(@PathVariable String boardKey, @PathVariable String boardDate) {
+        List<AucItem> aucItems =  boardDateService.checkDateWithKey(boardKey, boardDate);
+
+        if (aucItems == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(aucItems);
+    }
+
+    @GetMapping("/createNewBoard/{boardKey}/{boardDate}")
+    public ResponseEntity<List<AucItem>> getBoard(@PathVariable String boardKey, @PathVariable String boardDate) {
+        BoardDate key = new BoardDate();
+        key.setBoardDate(boardKey);
+        List<AucItem> aucItems =  boardDateService.checkDateWithKey(boardKey, boardDate);
+
+        if (aucItems == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(aucItems);
     }
 
     @PostMapping("/create/{boardKey}")
