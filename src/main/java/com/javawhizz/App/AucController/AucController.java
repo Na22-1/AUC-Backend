@@ -1,7 +1,6 @@
 package com.javawhizz.App.AucController;
 
 import com.javawhizz.App.entity.AucItem;
-import com.javawhizz.App.entity.BoardDate;
 import com.javawhizz.App.entity.BoardKey;
 import com.javawhizz.App.service.AucService;
 import com.javawhizz.App.service.BoardLoginService;
@@ -67,18 +66,6 @@ public class AucController {
 
     @PostMapping("/createNewBoard/{boardKey}/{boardDate}")
     public ResponseEntity<List<AucItem>> createNewBoard(@PathVariable String boardKey, @PathVariable String boardDate) {
-        List<AucItem> aucItems =  boardDateService.checkDateWithKey(boardKey, boardDate);
-
-        if (aucItems == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(aucItems);
-    }
-
-    @GetMapping("/createNewBoard/{boardKey}/{boardDate}")
-    public ResponseEntity<List<AucItem>> getBoard(@PathVariable String boardKey, @PathVariable String boardDate) {
-        BoardDate key = new BoardDate();
-        key.setBoardDate(boardKey);
         List<AucItem> aucItems =  boardDateService.checkDateWithKey(boardKey, boardDate);
 
         if (aucItems == null) {
