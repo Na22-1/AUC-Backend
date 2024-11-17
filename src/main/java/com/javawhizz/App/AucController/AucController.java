@@ -1,7 +1,6 @@
 package com.javawhizz.App.AucController;
 
 import com.javawhizz.App.entity.AucItem;
-import com.javawhizz.App.entity.BoardDate;
 import com.javawhizz.App.entity.BoardKey;
 import com.javawhizz.App.service.AucService;
 import com.javawhizz.App.service.BoardLoginService;
