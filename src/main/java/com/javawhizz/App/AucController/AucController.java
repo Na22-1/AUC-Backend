@@ -75,18 +75,6 @@ public class AucController {
         return ResponseEntity.ok(aucItems);
     }
 
-    @GetMapping("/createNewBoard/{boardKey}/{boardDate}")
-    public ResponseEntity<List<AucItem>> getBoard(@PathVariable String boardKey, @PathVariable String boardDate) {
-        BoardDate key = new BoardDate();
-        key.setBoardDate(boardKey);
-        List<AucItem> aucItems =  boardDateService.checkDateWithKey(boardKey, boardDate);
-
-        if (aucItems == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(aucItems);
-    }
-
     @PostMapping("/create/{boardKey}")
     public ResponseEntity<String> createBoardKey(@PathVariable String boardKey) {
         var result = boardLoginService.createBoardKey(boardKey);
